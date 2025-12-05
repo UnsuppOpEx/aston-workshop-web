@@ -3,15 +3,16 @@ package aston.task2.src.main.service;
 import aston.task2.src.main.entity.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
     User createUser(String name, String email, int age);
     
-    User getUser(Long id);
+    User getUser(UUID id);
     
     List<User> getAllUsers();
     
-    void updateUser(Long id, String name, String email, int age);
+    void updateUser(UUID id, String name, String email, int age);
     
-    void deleteUser(Long id);
+    void deleteUser(UUID id);
 }
