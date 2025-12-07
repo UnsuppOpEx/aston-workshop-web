@@ -60,5 +60,14 @@
     </dependencies>
     <build>
         <finalName>aston-workshop-web</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
