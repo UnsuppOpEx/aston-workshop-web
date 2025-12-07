@@ -28,7 +28,7 @@ public class User {
     private String name;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-    @Column(name = "age")
+    @Column(name = "age", nullable = false)
     private Integer age;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

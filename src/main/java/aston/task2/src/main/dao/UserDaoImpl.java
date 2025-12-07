@@ -9,13 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserDaoImpl implements UserDao {
-    
-    private final SessionFactory sessionFactory;
-    
-    public UserDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+public record UserDaoImpl(SessionFactory sessionFactory) implements UserDao {
     
     @Override
     public void save(User user) {

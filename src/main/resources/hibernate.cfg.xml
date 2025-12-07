@@ -12,8 +12,8 @@
 
         <!-- Hibernate Specific Properties -->
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="show_sql">true</property>
-        <property name="hbm2ddl.auto">validate</property>
+        <property name="show_sql">false</property>
+        <property name="hbm2ddl.auto">create-drop</property>
 
         <!-- Mapping Resources -->
         <mapping class="aston.task2.src.main.entity.User"/>

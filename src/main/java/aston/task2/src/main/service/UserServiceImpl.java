@@ -42,11 +42,11 @@ public record UserServiceImpl(UserDao userDao) implements UserService {
     }
     
     @Override
-    public void updateUser(UUID id, String name, String email, int age) {
-        User user = getUser(id);
-        user.setName(name);
-        user.setEmail(email);
-        user.setAge(age);
+    public void updateUser(User user) {
+        User daoUser = getUser(user.getId());
+        daoUser.setName(user.getName());
+        daoUser.setEmail(user.getEmail());
+        daoUser.setAge(user.getAge());
         userDao.update(user);
         logger.info("User updated: {}", user);
     }
