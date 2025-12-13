@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,4 +33,15 @@ public class User {
     private Integer age;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+    
+    public User(String name, String email, Integer age) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+    }
+    
+    @PrePersist
+    void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
