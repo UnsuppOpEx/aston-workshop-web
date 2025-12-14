@@ -6,6 +6,7 @@ import aston.task2.src.main.exception.UserNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,7 +18,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,17 +31,19 @@ public class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
     
-    
     @Test
     void createUser() {
-        User user = userService.createUser("John", "john@test.com", 12);
+        ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+        userService.createUser("John", "john@test.com", 12);
         
-        assertEquals("John", user.getName());
-        assertEquals("john@test.com", user.getEmail());
-        assertEquals(12, user.getAge());
-        Assertions.assertNotNull(user.getCreatedAt());
+        verify(userDao).save(captor.capture());
         
-        verify(userDao).save(any(User.class));
+        User actualUser = captor.getValue();
+        Assertions.assertNull(actualUser.getId());
+        assertEquals("John", actualUser.getName());
+        assertEquals("john@test.com", actualUser.getEmail());
+        assertEquals(12, actualUser.getAge());
+        Assertions.assertNotNull(actualUser.getCreatedAt());
     }
     
     @Test
