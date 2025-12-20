@@ -1,6 +1,6 @@
-package aston.task2.src.main.dao;
+package aston.dao;
 
-import aston.task2.src.main.entity.User;
+import aston.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

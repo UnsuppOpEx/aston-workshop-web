@@ -16,6 +16,6 @@
         <property name="hbm2ddl.auto">create-drop</property>
 
         <!-- Mapping Resources -->
-        <mapping class="aston.task2.src.main.entity.User"/>
+        <mapping class="aston.entity.User"/>
     </session-factory>
 </hibernate-configuration>

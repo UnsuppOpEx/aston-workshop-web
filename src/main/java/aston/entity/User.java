@@ -1,4 +1,4 @@
-package aston.task2.src.main.entity;
+package aston.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

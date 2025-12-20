@@ -1,7 +1,7 @@
-package aston.task2.src.main.dao;
+package aston.dao;
 
-import aston.task2.src.main.entity.User;
-import aston.task2.src.main.service.BaseIntegrationTest;
+import aston.entity.User;
+import aston.service.BaseIntegrationTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

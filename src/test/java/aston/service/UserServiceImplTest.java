@@ -1,8 +1,9 @@
-package aston.task2.src.main.service;
+package aston.service;
 
-import aston.task2.src.main.dao.UserDao;
-import aston.task2.src.main.entity.User;
-import aston.task2.src.main.exception.UserNotFoundException;
+import aston.dao.UserDao;
+import aston.entity.User;
+import aston.exception.UserNotFoundException;
+import aston.service.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

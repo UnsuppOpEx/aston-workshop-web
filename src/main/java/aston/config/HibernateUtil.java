@@ -1,4 +1,4 @@
-package aston.task2.src.main.config;
+package aston.config;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

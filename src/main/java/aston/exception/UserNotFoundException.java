@@ -1,4 +1,4 @@
-package aston.task2.src.main.exception;
+package aston.exception;
 
 import java.util.UUID;
 

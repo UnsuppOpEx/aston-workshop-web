@@ -1,8 +1,8 @@
-package aston.task2.src.main.service;
+package aston.service;
 
-import aston.task2.src.main.dao.UserDao;
-import aston.task2.src.main.entity.User;
-import aston.task2.src.main.exception.UserNotFoundException;
+import aston.dao.UserDao;
+import aston.entity.User;
+import aston.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,6 @@
-package aston.task2.src.main.service;
+package aston.service;
 
-import aston.task2.src.main.config.HibernateUtil;
+import aston.config.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

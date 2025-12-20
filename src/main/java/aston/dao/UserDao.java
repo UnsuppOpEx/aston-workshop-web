@@ -1,6 +1,6 @@
-package aston.task2.src.main.dao;
+package aston.dao;
 
-import aston.task2.src.main.entity.User;
+import aston.entity.User;
 
 import java.util.List;
 import java.util.Optional;

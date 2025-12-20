@@ -1,6 +1,6 @@
-package aston.task2.src.main.service;
+package aston.service;
 
-import aston.task2.src.main.entity.User;
+import aston.entity.User;
 
 import java.util.List;
 import java.util.UUID;
