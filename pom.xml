@@ -96,10 +96,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- SpringDoc OpenAPI -->
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
         </dependency>
+
 
     </dependencies>
 

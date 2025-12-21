@@ -8,11 +8,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
-    User save(User user);
-    
-    Optional<User> findById(UUID id);
-    
-    List<User> findAll();
-    
-    void deleteById(UUID id);
+  User save(User user);
+
+  Optional<User> findById(UUID id);
+
+  List<User> findAll();
+
+  void deleteById(UUID id);
 }

@@ -41,6 +41,24 @@
 
 > mvn -Dtest=aston.task2.** test
 
+## Task 4
+
+### Описание
+
+1. Использовать необходимые модули spring(boot, web, data etc).
+2. Реализовать api для получения, создания, обновления и удаления юзера. Важно, entity не должен возвращаться из
+   контроллера, необходимо использовать dto.
+3. Заменить Hibernate на Spring data JPA.
+4. Написать тесты для API(можно делать это при помощи mockMvc или других средств)
+
+#### Поднять DB в docker перед запуском приложения
+
+> docker-compose up -d
+
+#### Запуск тестов
+
+> mvn -Dtest=aston.** test
+
 ## Технологии
 
 - Java 17
@@ -49,4 +67,8 @@
 - Lombok
 - Hibernate
 - Testcontainers
+- Flyway
+- Spring boot
+- Docker-compose
+- Postgresql
 
