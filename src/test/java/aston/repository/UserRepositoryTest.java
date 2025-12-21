@@ -1,10 +1,12 @@
-package aston.dao;
+package aston.repository;
 
 import aston.entity.User;
-import aston.service.BaseIntegrationTest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,22 +14,22 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UserDaoImplTest extends BaseIntegrationTest {
-    private static UserDaoImpl userDao;
+@ActiveProfiles("test")
+@Transactional
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class UserRepositoryTest extends BaseIntegrationTest {
     
-    @BeforeAll
-    static void initService() {
-        userDao = new UserDaoImpl(sessionFactory);
-    }
+    @Autowired
+    private UserRepository userRepository;
     
     @Test
     void save() {
         User user = new User("John", "john@test.com", 12);
         
-        userDao.save(user);
+        userRepository.save(user);
         
         Assertions.assertNotNull(user.getId());
-        Optional<User> savedUser = userDao.findById(user.getId());
+        Optional<User> savedUser = userRepository.findById(user.getId());
         assertTrue(savedUser.isPresent());
     }
     
@@ -35,9 +37,9 @@ class UserDaoImplTest extends BaseIntegrationTest {
     void findById() {
         User user = new User("John", "john@test.com", 12);
         
-        userDao.save(user);
+        userRepository.save(user);
         
-        Optional<User> actualUser = userDao.findById(user.getId());
+        Optional<User> actualUser = userRepository.findById(user.getId());
         assertTrue(actualUser.isPresent());
         assertEquals("John", actualUser.get().getName());
         assertEquals("john@test.com", actualUser.get().getEmail());
@@ -47,11 +49,11 @@ class UserDaoImplTest extends BaseIntegrationTest {
     
     @Test
     void findAll() {
-        userDao.save(new User("Alex", "alex@test.com", 15));
-        userDao.save(new User("Bob", "bob@test.com", 20));
-        userDao.save(new User("Kate", "kate@test.com", 25));
+        userRepository.save(new User("Alex", "alex@test.com", 15));
+        userRepository.save(new User("Bob", "bob@test.com", 20));
+        userRepository.save(new User("Kate", "kate@test.com", 25));
         
-        List<User> users = userDao.findAll();
+        List<User> users = userRepository.findAll();
         assertEquals(3, users.size());
         
         Optional<User> expectedUser = users.stream().filter(u -> u.getName().equals("Kate")).findFirst();
@@ -65,9 +67,9 @@ class UserDaoImplTest extends BaseIntegrationTest {
     @Test
     void update() {
         User user = new User("Alex", "alex@test.com", 15);
-        userDao.save(user);
+        userRepository.save(user);
         Assertions.assertNotNull(user.getId());
-        User actualUser = userDao.findById(user.getId()).orElseThrow();
+        User actualUser = userRepository.findById(user.getId()).orElseThrow();
         
         assertEquals("Alex", actualUser.getName());
         assertEquals("alex@test.com", actualUser.getEmail());
@@ -76,10 +78,10 @@ class UserDaoImplTest extends BaseIntegrationTest {
         
         actualUser.setName("Alex Junior");
         actualUser.setAge(7);
-        userDao.update(actualUser);
+        userRepository.save(actualUser);
         
         
-        User updatedUser = userDao.findById(actualUser.getId()).orElseThrow();
+        User updatedUser = userRepository.findById(actualUser.getId()).orElseThrow();
         
         assertEquals("Alex Junior", updatedUser.getName());
         assertEquals("alex@test.com", updatedUser.getEmail());
@@ -90,18 +92,18 @@ class UserDaoImplTest extends BaseIntegrationTest {
     @Test
     void delete() {
         User user = new User("Alex", "alex@test.com", 15);
-        userDao.save(user);
+        userRepository.save(user);
         Assertions.assertNotNull(user.getId());
-        User actualUser = userDao.findById(user.getId()).orElseThrow();
+        User actualUser = userRepository.findById(user.getId()).orElseThrow();
         
         assertEquals("Alex", actualUser.getName());
         assertEquals("alex@test.com", actualUser.getEmail());
         assertEquals(15, actualUser.getAge());
         Assertions.assertNotNull(actualUser.getCreatedAt());
         
-        userDao.delete(actualUser.getId());
+        userRepository.deleteById(actualUser.getId());
         
-        Assertions.assertEquals(Optional.empty(), userDao.findById(actualUser.getId()));
+        Assertions.assertEquals(Optional.empty(), userRepository.findById(actualUser.getId()));
         
     }
 }
