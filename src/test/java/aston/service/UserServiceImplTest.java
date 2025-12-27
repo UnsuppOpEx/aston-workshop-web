@@ -2,12 +2,16 @@ package aston.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import aston.dao.UserDao;
+import aston.dto.UserRequest;
+import aston.dto.UserResponse;
 import aston.entity.User;
 import aston.exception.UserNotFoundException;
+import aston.mapper.UserMapper;
+import aston.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +19,6 @@ import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,45 +26,65 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
-  @Mock private UserDao userDao;
+  @Mock private UserRepository repository;
+
+  @Mock private UserMapper mapper;
 
   @InjectMocks private UserServiceImpl userService;
 
   @Test
   void createUser() {
-    ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
-    userService.createUser("John", "john@test.com", 12);
+    UserRequest request = new UserRequest("John", "john@test.com", 12);
+    User user = new User("John", "john@test.com", 12);
+    User userDb = new User("John", "john@test.com", 12);
+    userDb.setId(UUID.randomUUID());
+    userDb.setCreatedAt(LocalDateTime.now());
 
-    verify(userDao).save(captor.capture());
+    when(mapper.toEntity(request)).thenReturn(user);
+    when(repository.save(user)).thenReturn(userDb);
+    when(mapper.toDto(userDb))
+        .thenReturn(
+            new UserResponse(
+                userDb.getId(),
+                userDb.getName(),
+                userDb.getEmail(),
+                userDb.getAge(),
+                userDb.getCreatedAt()));
 
-    User actualUser = captor.getValue();
-    Assertions.assertNull(actualUser.getId());
-    assertEquals("John", actualUser.getName());
-    assertEquals("john@test.com", actualUser.getEmail());
-    assertEquals(12, actualUser.getAge());
-    Assertions.assertNotNull(actualUser.getCreatedAt());
+    UserResponse response = userService.createUser(request);
+
+    Assertions.assertNotNull(response.id());
+    assertEquals("John", response.name());
+    assertEquals("john@test.com", response.email());
+    assertEquals(12, response.age());
+    Assertions.assertNotNull(response.createdAt());
   }
 
   @Test
   void getUser() {
     User user = new User("Alex", "alex@test.com", 15);
-    UUID userId = UUID.randomUUID();
-    user.setId(userId);
+    user.setId(UUID.randomUUID());
     user.setCreatedAt(LocalDateTime.now());
 
-    when(userDao.findById(userId)).thenReturn(Optional.of(user));
-    User actualUser = userService.getUser(userId);
+    when(repository.findById(user.getId())).thenReturn(Optional.of(user));
+    when(mapper.toDto(user))
+        .thenReturn(
+            new UserResponse(
+                user.getId(), user.getName(), user.getEmail(), user.getAge(), user.getCreatedAt()));
 
-    assertEquals(user.getName(), actualUser.getName());
-    assertEquals(user.getEmail(), actualUser.getEmail());
-    assertEquals(user.getAge(), actualUser.getAge());
-    Assertions.assertNotNull(actualUser.getCreatedAt());
+    UserResponse actualUser = userService.getUser(user.getId());
+
+    Assertions.assertNotNull(actualUser.id());
+    assertEquals(user.getName(), actualUser.name());
+    assertEquals(user.getEmail(), actualUser.email());
+    assertEquals(user.getAge(), actualUser.age());
+    Assertions.assertNotNull(actualUser.createdAt());
   }
 
   @Test
   void getUserNotFound() {
     UUID userId = UUID.randomUUID();
-    when(userDao.findById(userId)).thenReturn(Optional.empty());
+    when(repository.findById(userId)).thenReturn(Optional.empty());
 
     Exception exception =
         assertThrows(UserNotFoundException.class, () -> userService.getUser(userId));
@@ -72,39 +95,49 @@ public class UserServiceImplTest {
 
   @Test
   void getAllUsers() {
-    User firstUser = userService.createUser("Alex", "alex@test.com", 15);
-    User secondUser = userService.createUser("Bob", "bob@test.com", 20);
-    User thirdUser = userService.createUser("Kate", "kate@test.com", 25);
+    User firstUserDb = new User("Alex", "alex@test.com", 15);
+    User secondUserDb = new User("Bob", "bob@test.com", 20);
+    User thirdUserDb = new User("Kate", "kate@test.com", 25);
 
-    when(userDao.findAll()).thenReturn(List.of(firstUser, secondUser, thirdUser));
-    List<User> users = userService.getAllUsers();
+    when(repository.findAll()).thenReturn(List.of(firstUserDb, secondUserDb, thirdUserDb));
+    when(mapper.toDto(any(User.class)))
+        .thenAnswer(
+            inv -> {
+              User u = inv.getArgument(0);
+              return new UserResponse(
+                  u.getId(), u.getName(), u.getEmail(), u.getAge(), u.getCreatedAt());
+            });
+
+    List<UserResponse> users = userService.getAllUsers();
+
     assertEquals(3, users.size());
-    verify(userDao).findAll();
+    verify(repository).findAll();
 
-    Optional<User> expectedUser =
-        users.stream().filter(u -> u.getName().equals("Kate")).findFirst();
+    Optional<UserResponse> expectedUser =
+        users.stream().filter(u -> u.name().equals("Kate")).findFirst();
     expectedUser.ifPresent(
         user -> {
-          assertEquals("Kate", user.getName());
-          assertEquals("kate@test.com", user.getEmail());
-          assertEquals(25, user.getAge());
+          assertEquals("Kate", user.name());
+          assertEquals("kate@test.com", user.email());
+          assertEquals(25, user.age());
         });
   }
 
   @Test
   void updateUser() {
+    UserRequest request = new UserRequest("Alex", "alex@test.com", 15);
     User user = new User("Alex", "alex@test.com", 15);
     UUID userId = UUID.randomUUID();
     user.setId(userId);
 
-    when(userDao.findById(userId)).thenReturn(Optional.of(user));
+    when(repository.findById(userId)).thenReturn(Optional.of(user));
 
     user.setName("Alex Junior");
     user.setAge(7);
 
-    userService.updateUser(user);
+    userService.updateUser(userId, request);
 
-    verify(userDao).update(user);
+    verify(repository).save(user);
   }
 
   @Test
@@ -112,10 +145,8 @@ public class UserServiceImplTest {
     User user = new User("Alex", "alex@test.com", 15);
     UUID userId = UUID.randomUUID();
     user.setId(userId);
-
-    when(userDao.findById(userId)).thenReturn(Optional.of(user));
     userService.deleteUser(userId);
 
-    verify(userDao).delete(userId);
+    verify(repository).deleteById(userId);
   }
 }

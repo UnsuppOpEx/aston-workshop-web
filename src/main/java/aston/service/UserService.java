@@ -1,17 +1,18 @@
 package aston.service;
 
-import aston.entity.User;
+import aston.dto.UserRequest;
+import aston.dto.UserResponse;
 import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-  User createUser(String name, String email, int age);
+  UserResponse createUser(UserRequest user);
 
-  User getUser(UUID id);
+  UserResponse getUser(UUID id);
 
-  List<User> getAllUsers();
+  List<UserResponse> getAllUsers();
 
-  void updateUser(User user);
+  UserResponse updateUser(UUID id, UserRequest user);
 
   void deleteUser(UUID id);
 }
