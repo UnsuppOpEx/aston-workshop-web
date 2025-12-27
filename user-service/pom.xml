@@ -16,8 +16,13 @@
     <groupId>ru.aston</groupId>
     <artifactId>aston-workshop-web</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <name>aston-workshop-web</name>
+    <modules>
+        <module>notification-service</module>
+        <module>user-service</module>
+    </modules>
 
     <properties>
         <java.version>17</java.version>
