@@ -57,6 +57,10 @@
 
 > docker-compose up -d
 
+#### Выполнить API запросы после запуска приложения
+
+> http://localhost:8080/swagger-ui/index.html
+
 #### Запуск тестов
 
 > mvn -Dtest=aston.** test
