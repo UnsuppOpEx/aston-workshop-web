@@ -4,6 +4,7 @@ import aston.dto.UserRequest;
 import aston.dto.UserResponse;
 import aston.entity.User;
 import aston.exception.UserNotFoundException;
+import aston.kafka.UserEventProducer;
 import aston.mapper.UserMapper;
 import aston.repository.UserRepository;
 import jakarta.validation.constraints.NotNull;
@@ -23,11 +24,13 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
   private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+  private final UserEventProducer userEventProducer;
 
   @Override
   public UserResponse createUser(UserRequest user) {
     User userEntity = userMapper.toEntity(user);
     User userDb = userRepository.save(userEntity);
+    userEventProducer.userCreated(userDb.getId(), userDb.getEmail());
     logger.info("User created: {}", user);
     return userMapper.toDto(userDb);
   }
@@ -65,7 +68,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void deleteUser(UUID id) {
-    logger.info("User deleted with id {}", id);
+    User userDb = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     userRepository.deleteById(id);
+    logger.info("User deleted with id {}", id);
+    userEventProducer.userDeleted(userDb.getId(), userDb.getEmail());
   }
 }
