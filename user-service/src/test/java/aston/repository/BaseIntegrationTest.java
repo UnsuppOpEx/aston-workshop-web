@@ -16,7 +16,8 @@ public abstract class BaseIntegrationTest {
       new PostgreSQLContainer<>("postgres:13.3")
           .withDatabaseName("user_db")
           .withUsername("postgres")
-          .withPassword("postgres");
+          .withPassword("postgres")
+          .withReuse(true);
 
   @DynamicPropertySource
   static void datasourceProps(DynamicPropertyRegistry registry) {
