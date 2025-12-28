@@ -1,0 +1,31 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: notification-service
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: earliest
+      properties:
+        max.poll.interval.ms: 300000
+        session.timeout.ms: 15000
+
+  mail:
+    host: mailhog
+    port: 1025
+    username: test
+    password: test
+    properties:
+      mail.smtp.auth: false
+      mail.smtp.starttls.enable: false
+
+mail:
+  from: no-reply@aston.ru
+
+kafka:
+  topics:
+    user-events: user-events

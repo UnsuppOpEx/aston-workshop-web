@@ -6,7 +6,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- parent = root aggregator -->
+    <!-- parent -->
     <parent>
         <groupId>ru.aston</groupId>
         <artifactId>aston-workshop-web</artifactId>
@@ -53,7 +53,7 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-        <!-- Kafka -->
+        <!-- Kafka  -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
@@ -85,6 +85,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -92,6 +98,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

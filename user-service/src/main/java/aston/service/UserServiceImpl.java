@@ -1,7 +1,7 @@
 package aston.service;
 
-import aston.dto.UserRequest;
-import aston.dto.UserResponse;
+import aston.api.dto.UserRequest;
+import aston.api.dto.UserResponse;
 import aston.entity.User;
 import aston.exception.UserNotFoundException;
 import aston.kafka.UserEventProducer;

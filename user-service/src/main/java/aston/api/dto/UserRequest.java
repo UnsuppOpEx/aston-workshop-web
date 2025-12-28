@@ -1,4 +1,4 @@
-package aston.dto;
+package aston.api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;

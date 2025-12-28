@@ -1,7 +1,7 @@
 package aston.service;
 
-import aston.dto.UserRequest;
-import aston.dto.UserResponse;
+import aston.api.dto.UserRequest;
+import aston.api.dto.UserResponse;
 import java.util.List;
 import java.util.UUID;
 

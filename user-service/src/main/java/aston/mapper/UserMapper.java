@@ -1,7 +1,7 @@
 package aston.mapper;
 
-import aston.dto.UserRequest;
-import aston.dto.UserResponse;
+import aston.api.dto.UserRequest;
+import aston.api.dto.UserResponse;
 import aston.entity.User;
 import org.springframework.stereotype.Component;
 
