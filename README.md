@@ -88,14 +88,6 @@
 
 3. > docker-compose up
 
-#### Выполнить API запросы после запуска приложения
-
-> http://localhost:8081/swagger-ui/index.html  - API отправки сообщения на почту в через Kafka
-
-> http://localhost:8082/swagger-ui/index.html  - API отправки сообщения на почту в обход Kafka
-
-> http://0.0.0.0:8025/ - Проверка почты
-
 ## Технологии
 
 - Java 17
@@ -108,7 +100,6 @@
 - Spring boot
 - Docker-compose
 - Postgresql
-- SpringDoc OpenAPI
 - Kafka
 - MailHog
 
