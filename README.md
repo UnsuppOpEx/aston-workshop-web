@@ -87,7 +87,7 @@
 2. > docker-compose build
 
 3. > docker-compose up
-   
+
 ## Task 6
 
 ### Описание
