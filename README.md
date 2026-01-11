@@ -90,7 +90,7 @@
 
 #### Выполнить API запросы после запуска приложения
 
-> http://localhost:8081/swagger-ui/index.html  - API отправки сообщения на почту в через Kafka
+> http://localhost:8081/swagger-ui/index.html  - API отправки сообщения на почту через Kafka
 
 > http://localhost:8082/swagger-ui/index.html  - API отправки сообщения на почту в обход Kafka
 

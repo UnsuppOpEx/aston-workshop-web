@@ -3,10 +3,12 @@ package aston.notification.kafka;
 import aston.notification.api.event.UserEvent;
 import aston.notification.mail.MailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableKafka
 @RequiredArgsConstructor
 public class UserEventConsumer {
   private final MailService mailService;
