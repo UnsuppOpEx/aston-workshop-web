@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  test:
+    database:
+      replace: none
+
+server:
+  port: 0
