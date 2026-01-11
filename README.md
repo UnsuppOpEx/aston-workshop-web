@@ -87,6 +87,14 @@
 2. > docker-compose build
 
 3. > docker-compose up
+   
+## Task 6
+
+### Описание
+
+Добавление Swagger-документации в API.
+
+1. Задокументировать существующее API с помощью Swagger (Springdoc OpenAPI)
 
 #### Выполнить API запросы после запуска приложения
 
