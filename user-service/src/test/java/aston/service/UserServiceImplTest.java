@@ -4,7 +4,7 @@ import aston.api.dto.UserRequest;
 import aston.api.dto.UserResponse;
 import aston.entity.User;
 import aston.exception.UserNotFoundException;
-import aston.kafka.UserEventProducer;
+import aston.kafka.UserProducer;
 import aston.mapper.UserMapper;
 import aston.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -32,7 +32,7 @@ public class UserServiceImplTest {
 
   @Mock private UserMapper mapper;
 
-  @Mock private UserEventProducer eventProducer;
+  @Mock private UserProducer userProducer;
 
   @InjectMocks private UserServiceImpl userService;
 
